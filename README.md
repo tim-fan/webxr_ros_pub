@@ -1,3 +1,11 @@
+# webxr_ros_pub
+
+Experiment publishing webxr pose to ROS via rosbridge
+
+Have taken webxr example [ar-barebones.html](https://github.com/immersive-web/webxr-samples/blob/main/ar-barebones.html), and added a rosbridge publisher based on [roslibjs tutorials](http://wiki.ros.org/roslibjs/Tutorials/BasicRosFunctionality)
+
+## Notes
+
 Linear and angular vel apparently not available in the pose:
 https://github.com/immersive-web/webxr/issues/185
 
