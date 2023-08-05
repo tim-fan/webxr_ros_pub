@@ -140,11 +140,17 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         let session = frame.session;
         session.requestAnimationFrame(onXRFrame);
 
+        gl.bindFramebuffer(gl.FRAMEBUFFER, session.renderState.baseLayer.framebuffer);
+
         let pose = frame.getViewerPose(xrRefSpace);
         if (pose) {
           const p = pose.transform.position;
-          document.getElementById('pose').innerText = "Position: " +
-            p.x.toFixed(3) + ", " + p.y.toFixed(3) + ", " + p.z.toFixed(3);
+          const o = pose.transform.orientation;
+          document.getElementById('pose').innerText = ""+ 
+          "Position: " + p.x.toFixed(3) + ", " + p.y.toFixed(3) + ", " + p.z.toFixed(3) + "\n" +
+          "Orientation: " + o.x.toFixed(3) + ", " + o.y.toFixed(3) + ", " + o.z.toFixed(3) + ", " + o.w.toFixed(3) + "\n";
+
+
         } else {
           document.getElementById('pose').innerText = "Position: (null pose)";
         }
