@@ -59,3 +59,6 @@ run web server
  * can use for teach and repeat? 
     * Does trajectory drift over time? Does this change with different reference spaces? Can anchors be used to mitigate drift?
 * look into publishing anchors
+* best way to distribute?
+ * could host on webserver, but webxr requires https, so rosbridge will require secure websocket, so users will have to setup/install certs to use?
+ * alternative - try bundle html into app, perhaps webxr will be happy and websockets can still be insecure
