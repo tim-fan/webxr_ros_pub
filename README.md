@@ -26,6 +26,16 @@ Got pose out, 30Hz
  - check if faster rate possible?
  - look into transform from webxr frame to REP compliant? (e.g. z up) Just publish static tf to webxr frame
 
+Attempting hosting on github pages, but now getting errors RE insecure websockets on pages loaded via https
+```
+roslib.js:3466 Mixed Content: The page at 'https://tim-fan.github.io/webxr_ros_pub/webxr_ros_pub.html' was loaded over HTTPS, but attempted to connect to the insecure WebSocket endpoint 'ws://192.168.1.250:9090/'. This request has been blocked; this endpoint must be available over WSS.
+Ros.connect @ roslib.js:3466
+webxr_ros_pub.html:1 Uncaught DOMException: Failed to construct 'WebSocket': An insecure WebSocket connection may not be initiated from a page loaded over HTTPS.
+    at Ros.connect (https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.js:3466:18)
+    at new Ros (https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.js:3444:10)
+    at https://tim-fan.github.io/webxr_ros_pub/webxr_ros_pub.html:63:15
+```
+
 ## Usage:
 
 ROS server side:
