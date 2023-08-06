@@ -39,14 +39,17 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <div id="overlay">
     <header>
       <details open>
-        <summary>Barebones WebXR DOM Overlay</summary>
+        <summary>WebXR Pose to ROS</summary>
         <p>
-          This sample demonstrates extremely simple use of an "immersive-ar"
-          session with no library dependencies, with an optional DOM overlay.
-          It doesn't render anything exciting, just draws a rectangle with a
-          slowly changing color to prove it's working.
-          <a class="back" href="./index.html">Back</a>
+          Run a webxr session, publish pose to ROS via rosbridge
         </p>
+        <form id="rosbridge_settings_form" action="javascript:void(0);">
+          <label for="websocket_url">Websocket Url: </label>
+          <input type="text" id="websocket_url" name="websocket_url" value=ws://127.0.0.1:9090>
+          <input type="submit" value="Connect">
+        </form>
+
+        <br><br>
         <div id="session-info"></div>
         <div id="pose"></div>
         <div id="warning-zone"></div>
@@ -59,27 +62,41 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   </main>
   <script type="module">
 
-    // roslib
-    var ros = new ROSLIB.Ros({
-      url: 'ws://192.168.1.250:9090'
-    });
+    var ros = null;
+    var poseStampedTopic = null;
 
-    ros.on('connection', function () {
-      console.log('Connected to websocket server.');
-    });
-    ros.on('error', function (error) {
-      console.log('Error connecting to websocket server: ', error);
-    });
+    // connect to rosbridge when connect button pressed
+    document.getElementById("rosbridge_settings_form").onsubmit = function () {
+      // roslib
 
-    ros.on('close', function () {
-      console.log('Connection to websocket server closed.');
-    });
+      var ws_url = this.elements.websocket_url.value
+      ros = new ROSLIB.Ros({
+        url: ws_url
+      });
 
-    var poseStampedTopic = new ROSLIB.Topic({
-      ros: ros,
-      name: '/pose',
-      messageType: 'geometry_msgs/PoseStamped'
-    });
+
+      poseStampedTopic = new ROSLIB.Topic({
+        ros: ros,
+        name: '/pose',
+        messageType: 'geometry_msgs/PoseStamped'
+      });
+
+      ros.on('connection', function () {
+        alert('Connected to websocket server.');
+      });
+      ros.on('error', function (error) {
+        alert('Error connecting to websocket server ' + ws_url + ': ', error);
+      });
+
+      ros.on('close', function () {
+        alert('Connection to websocket server closed.');
+      });
+
+
+    };
+
+
+
 
     // XR globals.
     let xrButton = document.getElementById('xr-button');
@@ -177,25 +194,28 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           "Position: " + p.x.toFixed(3) + ", " + p.y.toFixed(3) + ", " + p.z.toFixed(3) + "\n" +
           "Orientation: " + o.x.toFixed(3) + ", " + o.y.toFixed(3) + ", " + o.z.toFixed(3) + ", " + o.w.toFixed(3) + "\n";
 
-        var poseStampedMsg = new ROSLIB.Message({
-          header: {
-            frame_id: "world"
-          },
-          pose: {
-            position: {
-              x: p.x,
-              y: p.y,
-              z: p.z
+        if (ros) {
+          var poseStampedMsg = new ROSLIB.Message({
+            header: {
+              frame_id: "world"
             },
-            orientation: {
-              x: o.x,
-              y: o.y,
-              z: o.z,
-              w: o.w
+            pose: {
+              position: {
+                x: p.x,
+                y: p.y,
+                z: p.z
+              },
+              orientation: {
+                x: o.x,
+                y: o.y,
+                z: o.z,
+                w: o.w
+              }
             }
-          }
-        });
-        poseStampedTopic.publish(poseStampedMsg);
+          });
+          poseStampedTopic.publish(poseStampedMsg);
+        }
+
 
 
       } else {
