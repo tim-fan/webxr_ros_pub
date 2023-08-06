@@ -8,6 +8,10 @@ Have taken webxr example [ar-barebones.html](https://github.com/immersive-web/we
 
 **Figure**: Trajectory from running the webxr publisher, quickly walking around my home, logging `/pose` then plotting with [`evo`](https://github.com/MichaelGrupp/evo). Trajectory covered two rooms upstairs, staircase descent, walking through two rooms downstairs, then returning to the starting pose upstairs. Trajectory looks decent, no significant drift observed from start to end pose.
 
+![Front yard walk](./front_yard_walk.png)
+
+**Figure**: Trajectory from walking around my front yard 10 times. Path length = 448m, duration = 8 minutes. Position drift is evident, looks like around 2m drift total from start to end, possibly due to slowly accumulating heading drift. Also noticed z-drift in the 3D plot. I'd say this is pretty impressive if used as dead reckoning/odometry. Still, I was hoping the system would build a persistent map and localise within it without drift, which would be great for navigation (I'm thinking teach and repeat). Test was taken on an S22+ ,Android 13, webxr reference space 'local'.
+
 
 ## Usage:
 
@@ -125,8 +129,11 @@ webxr_ros_pub.html:1 Uncaught DOMException: Failed to construct 'WebSocket': An 
 * try different reference space (unbounded? will need to request feature in requestSession)
 * look into depth api
 * consider calc velocity via differentiation? Better try access IMU? 
-* log some trajectories and inspect
- * can use for teach and repeat? 
+* More testing
+    * explore reference spaces
+    * is there position drift if staying in a single room? 
+    * can anchors be used to stop drift?
+* * can use for teach and repeat? 
     * Does trajectory drift over time? Does this change with different reference spaces? Can anchors be used to mitigate drift?
 * look into publishing anchors
 * best way to distribute?
