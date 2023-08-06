@@ -45,7 +45,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         </p>
         <form id="rosbridge_settings_form" action="javascript:void(0);">
           <label for="websocket_url">Websocket Url: </label>
-          <input type="text" id="websocket_url" name="websocket_url" value=ws://127.0.0.1:9090>
+          <input type="text" id="websocket_url" name="websocket_url" value=wss://127.0.0.1:9090>
           <input type="submit" value="Connect">
         </form>
 
@@ -195,15 +195,23 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           "Orientation: " + o.x.toFixed(3) + ", " + o.y.toFixed(3) + ", " + o.z.toFixed(3) + ", " + o.w.toFixed(3) + "\n";
 
         if (ros) {
+          // want to publish pose in REP-103 compliant manner
+          // At least z should be up?
+          // For now, swap position coordinates, leaving rotation un-altered.
+          // TODO: handle rotation as well
+          // references:
+          // https://www.ros.org/reps/rep-0103.html
+          // https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API/Geometry
+
           var poseStampedMsg = new ROSLIB.Message({
             header: {
               frame_id: "world"
             },
             pose: {
               position: {
-                x: p.x,
-                y: p.y,
-                z: p.z
+                x: -p.z,
+                y: p.x,
+                z: p.y
               },
               orientation: {
                 x: o.x,
