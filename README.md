@@ -34,6 +34,9 @@ Instructions are provided for both options; I found the self-signed cert option 
         ```
 1) Phone setup
     
+    1) Mark the new certificate as "trusted"
+        1) In the phone's browser, navigate to `https://<ip of the linux laptop>:9090`
+        1) You should see a "Your connection is not private" dialog (this was tested in Chrome). Click "Advanced", then "Proceed to <ip> (unsafe)". You should see a message "can upgrade only to websocket" - this can be ignored.
     1) In the phone's browser, navigate to: https://tim-fan.github.io/webxr_ros_pub/webxr_ros_pub.html
 
         The page should look like the following:
