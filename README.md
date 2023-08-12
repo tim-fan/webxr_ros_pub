@@ -6,12 +6,15 @@ Have taken webxr example [ar-barebones.html](https://github.com/immersive-web/we
 
 ![Quick test walking around home](./quick_walk_test_home.png)
 
-**Figure**: Trajectory from running the webxr publisher, quickly walking around my home, logging `/pose` then plotting with [`evo`](https://github.com/MichaelGrupp/evo). Trajectory covered two rooms upstairs, staircase descent, walking through two rooms downstairs, then returning to the starting pose upstairs. Trajectory looks decent, no significant drift observed from start to end pose.
+**Figure 1**: Trajectory from android phone running the webxr publisher, quickly walking around my home, logging `/pose` then plotting with [`evo`](https://github.com/MichaelGrupp/evo). Trajectory covered two rooms upstairs, staircase descent, walking through two rooms downstairs, then returning to the starting pose upstairs. Trajectory looks decent, no significant drift observed from start to end pose.
 
 ![Front yard walk](./front_yard_walk.png)
 
-**Figure**: Trajectory from walking around my front yard 10 times. Path length = 448m, duration = 8 minutes. Position drift is evident, looks like around 2m drift total from start to end, possibly due to slowly accumulating heading drift. Also noticed z-drift in the 3D plot. I'd say this is pretty impressive if used as dead reckoning/odometry. Still, I was hoping the system would build a persistent map and localise within it without drift, which would be great for navigation (I'm thinking teach and repeat). Test was taken on an S22+ ,Android 13, webxr reference space 'local'.
+**Figure 2**: Trajectory from android phone, walking around my front yard 10 times. Path length = 448m, duration = 8 minutes. Position drift is evident, looks like around 2m drift total from start to end, possibly due to slowly accumulating heading drift. Also noticed z-drift in the 3D plot. I'd say this is pretty impressive if used as dead reckoning/odometry. Still, I was hoping the system would build a persistent map and localise within it without drift, which would be great for navigation (I'm thinking teach and repeat). Test was taken on an S22+ ,Android 13, webxr reference space 'local'.
 
+![Home with quest2 ](./home_quest_2_traj.png)
+
+**Figure 3**: Trajectory walking around the ground floor of my home, now logging from a quest 2 headset. Trajectory duration about 8 minutes, length 276m. Looks really good, would like to test further for drift over even longer sessions/areas.
 
 ## Usage:
 
@@ -79,7 +82,8 @@ This was the first way I managed to get it running, but was more of a hassle.
     1) from this repo, download `webxr_ros_pub.html` into that directory
     1) in the phone browser, navigate to `localhost:8080/webxr_ros_pub.html`
     The page should look like the following:
-    ![page screenshot](./screenshot.png)
+
+        ![page screenshot](./screenshot.png)
     1) Set the websocket url to `ws://<ip of the linux laptop>:9090`, then click connect. You should see a popup confirming a successful connection.
     1) Click "Enter AR" to start the webxr session.
 1) Confirm its working: same as above (option 1) 
@@ -119,6 +123,11 @@ webxr_ros_pub.html:1 Uncaught DOMException: Failed to construct 'WebSocket': An 
     at new Ros (https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.js:3444:10)
     at https://tim-fan.github.io/webxr_ros_pub/webxr_ros_pub.html:63:15
 ```
+
+Quest 2:
+ * [Unsure if depth API supported in occulus browser](https://communityforums.atmeta.com/t5/Quest-Development/Feature-depth-sensing-is-not-permitted-by-permissions-policy/td-p/1063902)
+ * Had to [disable guardian](https://stealthoptional.com/gaming/how-to-turn-off-guardian-on-oculus-quest-2-how-to-disable-oculus-guardian-system/) in order to track over large areas - the tracking was stopping when the device went outside the gaurdian boundaries. I'm now quite curious to see how large an area can be tracked(!)
+ * 
 
 ## TODO: 
 * ROS-side nodes for better interfacing
