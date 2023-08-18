@@ -16,6 +16,8 @@ Have taken webxr example [ar-barebones.html](https://github.com/immersive-web/we
 
 **Figure 3**: Trajectory walking around the ground floor of my home, now logging from a quest 2 headset. Trajectory duration about 8 minutes, length 276m. Looks really good, would like to test further for drift over even longer sessions/areas.
 
+Further Quest2 tests documented here: [notes_testing_quest2_pose.md](./quest_2_pose_tests/notes_testing_quest2_pose.md)
+
 ## Usage:
 
 NOTE - Webxr is only available in [secure contexts](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts), and further, [insecure websockets cannot be opened from a page served over https](https://stackoverflow.com/a/50865515/5718370). Hence there are two options for accessing wbexr and publishing to rosbridge:
@@ -127,7 +129,7 @@ webxr_ros_pub.html:1 Uncaught DOMException: Failed to construct 'WebSocket': An 
 Quest 2:
  * [Unsure if depth API supported in occulus browser](https://communityforums.atmeta.com/t5/Quest-Development/Feature-depth-sensing-is-not-permitted-by-permissions-policy/td-p/1063902)
  * Had to [disable guardian](https://stealthoptional.com/gaming/how-to-turn-off-guardian-on-oculus-quest-2-how-to-disable-oculus-guardian-system/) in order to track over large areas - the tracking was stopping when the device went outside the gaurdian boundaries. I'm now quite curious to see how large an area can be tracked(!)
- * 
+ * ToDo: test latency compared to mobile browser (compare to independent imu)
 
 ## TODO: 
 * ROS-side nodes for better interfacing
