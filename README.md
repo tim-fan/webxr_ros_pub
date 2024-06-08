@@ -150,3 +150,4 @@ Quest 2:
 * best way to distribute?
  * could host on webserver, but webxr requires https, so rosbridge will require secure websocket, so users will have to setup/install certs to use? 
  * alternative - try bundle html into app, perhaps webxr will be happy and websockets can still be insecure
+* Try ngrok for wss following [vuer](https://docs.vuer.ai/en/latest/quick_start.html#ngrok.io)
